@@ -1,0 +1,36 @@
+sep=;
+time;model_id;model_name;port_name;data
+0;1;GestorCasos;;CaseManagerState{now=0, out_AC=0, out_RC=0}
+0;2;GeneratorPacientes;;GeneratorState{now=0, next=0, next_id=1, idx=0, done=false}
+0;1;GestorCasos;;CaseManagerState{now=0, out_AC=1, out_RC=0}
+0;2;GeneratorPacientes;Out_pacientes;Patient{id=1, edad=75, riesgo=alto, estado=generado, llegada=0, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+0;2;GeneratorPacientes;;GeneratorState{now=0, next=60, next_id=2, idx=1, done=false}
+0;1;GestorCasos;Out_pacienteAC;Patient{id=1, edad=75, riesgo=alto, estado=en_espera_atencion, llegada=0, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+0;1;GestorCasos;;CaseManagerState{now=0, out_AC=0, out_RC=0}
+60;1;GestorCasos;;CaseManagerState{now=60, out_AC=0, out_RC=1}
+60;2;GeneratorPacientes;Out_pacientes;Patient{id=2, edad=72, riesgo=medio, estado=generado, llegada=60, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+60;2;GeneratorPacientes;;GeneratorState{now=60, next=120, next_id=3, idx=2, done=false}
+60;1;GestorCasos;Out_PacienteRC;Patient{id=2, edad=72, riesgo=medio, estado=finalizado, llegada=60, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=derivacion, followups=0}
+60;1;GestorCasos;;CaseManagerState{now=60, out_AC=0, out_RC=0}
+120;1;GestorCasos;;CaseManagerState{now=120, out_AC=0, out_RC=1}
+120;2;GeneratorPacientes;Out_pacientes;Patient{id=3, edad=65, riesgo=bajo, estado=generado, llegada=120, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+120;2;GeneratorPacientes;;GeneratorState{now=120, next=180, next_id=4, idx=3, done=false}
+120;1;GestorCasos;Out_PacienteRC;Patient{id=3, edad=65, riesgo=bajo, estado=finalizado, llegada=120, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=derivacion, followups=0}
+120;1;GestorCasos;;CaseManagerState{now=120, out_AC=0, out_RC=0}
+180;1;GestorCasos;;CaseManagerState{now=180, out_AC=1, out_RC=0}
+180;2;GeneratorPacientes;Out_pacientes;Patient{id=4, edad=80, riesgo=alto, estado=generado, llegada=180, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+180;2;GeneratorPacientes;;GeneratorState{now=180, next=240, next_id=5, idx=4, done=false}
+180;1;GestorCasos;Out_pacienteAC;Patient{id=4, edad=80, riesgo=alto, estado=en_espera_atencion, llegada=180, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+180;1;GestorCasos;;CaseManagerState{now=180, out_AC=0, out_RC=0}
+240;1;GestorCasos;;CaseManagerState{now=240, out_AC=1, out_RC=0}
+240;2;GeneratorPacientes;Out_pacientes;Patient{id=5, edad=70, riesgo=medio, estado=generado, llegada=240, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+240;2;GeneratorPacientes;;GeneratorState{now=240, next=300, next_id=6, idx=5, done=false}
+240;1;GestorCasos;Out_pacienteAC;Patient{id=5, edad=70, riesgo=medio, estado=en_espera_atencion, llegada=240, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+240;1;GestorCasos;;CaseManagerState{now=240, out_AC=0, out_RC=0}
+300;1;GestorCasos;;CaseManagerState{now=300, out_AC=1, out_RC=0}
+300;2;GeneratorPacientes;Out_pacientes;Patient{id=6, edad=68, riesgo=bajo, estado=generado, llegada=300, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+300;2;GeneratorPacientes;;GeneratorState{now=300, next=inf, next_id=7, idx=6, done=true}
+300;1;GestorCasos;Out_pacienteAC;Patient{id=6, edad=68, riesgo=bajo, estado=en_espera_atencion, llegada=300, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+300;1;GestorCasos;;CaseManagerState{now=300, out_AC=0, out_RC=0}
+300;1;GestorCasos;;CaseManagerState{now=300, out_AC=0, out_RC=0}
+300;2;GeneratorPacientes;;GeneratorState{now=300, next=inf, next_id=7, idx=6, done=true}

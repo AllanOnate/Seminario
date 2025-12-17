@@ -1,0 +1,36 @@
+sep=;
+time;model_id;model_name;port_name;data
+0;1;Medico;;DoctorState{now=0, busy=false, q=0, finish=inf, current_id=-1}
+0;2;GeneratorPacientes;;GeneratorState{now=0, next=0, next_id=1, idx=0, done=false}
+0;1;Medico;;DoctorState{now=0, busy=true, q=0, finish=149.774, current_id=1}
+0;2;GeneratorPacientes;Out_pacientes;Patient{id=1, edad=75, riesgo=alto, estado=generado, llegada=0, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+0;2;GeneratorPacientes;;GeneratorState{now=0, next=60, next_id=2, idx=1, done=false}
+60;1;Medico;;DoctorState{now=60, busy=true, q=1, finish=149.774, current_id=1}
+60;2;GeneratorPacientes;Out_pacientes;Patient{id=2, edad=72, riesgo=medio, estado=generado, llegada=60, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+60;2;GeneratorPacientes;;GeneratorState{now=60, next=120, next_id=3, idx=2, done=false}
+120;1;Medico;;DoctorState{now=120, busy=true, q=2, finish=149.774, current_id=1}
+120;2;GeneratorPacientes;Out_pacientes;Patient{id=3, edad=65, riesgo=bajo, estado=generado, llegada=120, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+120;2;GeneratorPacientes;;GeneratorState{now=120, next=180, next_id=4, idx=3, done=false}
+149.774;1;Medico;Out_Paciente;Patient{id=1, edad=75, riesgo=alto, estado=finalizado, llegada=0, atencion=0, salida=149.774, espera_s=0, atencion_s=149.774, medico=0, resultado=unknown, followups=0}
+149.774;1;Medico;;DoctorState{now=149.774, busy=true, q=1, finish=216.907, current_id=2}
+180;1;Medico;;DoctorState{now=180, busy=true, q=2, finish=216.907, current_id=2}
+180;2;GeneratorPacientes;Out_pacientes;Patient{id=4, edad=80, riesgo=alto, estado=generado, llegada=180, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+180;2;GeneratorPacientes;;GeneratorState{now=180, next=240, next_id=5, idx=4, done=false}
+216.907;1;Medico;Out_Paciente;Patient{id=2, edad=72, riesgo=medio, estado=finalizado, llegada=60, atencion=149.774, salida=216.907, espera_s=89.7741, atencion_s=67.1328, medico=0, resultado=unknown, followups=0}
+216.907;1;Medico;;DoctorState{now=216.907, busy=true, q=1, finish=357.792, current_id=3}
+240;1;Medico;;DoctorState{now=240, busy=true, q=2, finish=357.792, current_id=3}
+240;2;GeneratorPacientes;Out_pacientes;Patient{id=5, edad=70, riesgo=medio, estado=generado, llegada=240, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+240;2;GeneratorPacientes;;GeneratorState{now=240, next=300, next_id=6, idx=5, done=false}
+300;1;Medico;;DoctorState{now=300, busy=true, q=3, finish=357.792, current_id=3}
+300;2;GeneratorPacientes;Out_pacientes;Patient{id=6, edad=68, riesgo=bajo, estado=generado, llegada=300, atencion=0, salida=0, espera_s=0, atencion_s=0, medico=-1, resultado=unknown, followups=0}
+300;2;GeneratorPacientes;;GeneratorState{now=300, next=inf, next_id=7, idx=6, done=true}
+357.792;1;Medico;Out_Paciente;Patient{id=3, edad=65, riesgo=bajo, estado=finalizado, llegada=120, atencion=216.907, salida=357.792, espera_s=96.9069, atencion_s=140.885, medico=0, resultado=unknown, followups=0}
+357.792;1;Medico;;DoctorState{now=357.792, busy=true, q=2, finish=510.184, current_id=4}
+510.184;1;Medico;Out_Paciente;Patient{id=4, edad=80, riesgo=alto, estado=finalizado, llegada=180, atencion=357.792, salida=510.184, espera_s=177.792, atencion_s=152.392, medico=0, resultado=unknown, followups=0}
+510.184;1;Medico;;DoctorState{now=510.184, busy=true, q=1, finish=591.249, current_id=5}
+591.249;1;Medico;Out_Paciente;Patient{id=5, edad=70, riesgo=medio, estado=finalizado, llegada=240, atencion=510.184, salida=591.249, espera_s=270.184, atencion_s=81.0649, medico=0, resultado=unknown, followups=0}
+591.249;1;Medico;;DoctorState{now=591.249, busy=true, q=0, finish=772.96, current_id=6}
+772.96;1;Medico;Out_Paciente;Patient{id=6, edad=68, riesgo=bajo, estado=finalizado, llegada=300, atencion=591.249, salida=772.96, espera_s=291.249, atencion_s=181.71, medico=0, resultado=unknown, followups=0}
+772.96;1;Medico;;DoctorState{now=772.96, busy=false, q=0, finish=inf, current_id=-1}
+772.96;1;Medico;;DoctorState{now=772.96, busy=false, q=0, finish=inf, current_id=-1}
+772.96;2;GeneratorPacientes;;GeneratorState{now=300, next=inf, next_id=7, idx=6, done=true}

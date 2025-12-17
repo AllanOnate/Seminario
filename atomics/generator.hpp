@@ -37,7 +37,7 @@ inline std::ostream& operator<<(std::ostream& os, const GeneratorState& s) {
 
 class GeneratorPacientes : public cadmium::Atomic<GeneratorState> {
   public:
-    cadmium::Port<Patient> Out_pacientes;
+    mutable cadmium::Port<Patient> Out_pacientes;
 
     GeneratorPacientes(std::string id, GeneratorConfig cfg)
     : cadmium::Atomic<GeneratorState>(id, initial_state(cfg))
@@ -57,7 +57,7 @@ class GeneratorPacientes : public cadmium::Atomic<GeneratorState> {
         return std::max(0.0, state.next - state.now);
     }
 
-    void output(GeneratorState& state) const override {
+    void output(const GeneratorState& state) const override{
         if (state.done) return;
 
         Patient p;
@@ -74,7 +74,7 @@ class GeneratorPacientes : public cadmium::Atomic<GeneratorState> {
             p.nivel_riesgo = RiskLevel::Unknown;
         }
 
-        Out_pacientes.addMessage(p);
+        Out_pacientes->addMessage(p);
     }
 
     void internalTransition(GeneratorState& state) const override {

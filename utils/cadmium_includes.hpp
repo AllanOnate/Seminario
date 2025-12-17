@@ -1,18 +1,39 @@
 #pragma once
 
-// This header centralizes Cadmium v2 includes and provides small compatibility
-// shims for minor header-name differences (e.g., coupled vs coupled.hpp).
+// Centralized Cadmium v2 includes.
+//
+// There are (at least) two common Cadmium v2 include layouts in the wild:
+//
+//   A) include/cadmium/core/modeling/...   (as in the official wiki examples)
+//   B) include/cadmium/modeling/devs/...   (as in some forks / packaged layouts)
+//
+// Your local screenshot shows layout (B):
+//   ~/cadmium_v2/include/cadmium/modeling/devs/atomic.hpp
+//   ~/cadmium_v2/include/cadmium/modeling/devs/coupled.hpp
+//
+// We support both via __has_include checks.
+
+// --- Atomic / Coupled / Ports ------------------------------------------------
 
 #if __has_include(<cadmium/core/modeling/atomic.hpp>)
+  // Layout A
   #include <cadmium/core/modeling/atomic.hpp>
-#else
-  #error "Cadmium v2 not found: expected <cadmium/core/modeling/atomic.hpp>. Check your include path (CADMIUM_V2_INCLUDE)."
-#endif
-
-#if __has_include(<cadmium/core/modeling/coupled.hpp>)
   #include <cadmium/core/modeling/coupled.hpp>
-#elif __has_include(<cadmium/core/modeling/coupled>)
-  #include <cadmium/core/modeling/coupled>
+  // Port headers may be transitively included, but include explicitly when present.
+  #if __has_include(<cadmium/core/modeling/port.hpp>)
+    #include <cadmium/core/modeling/port.hpp>
+  #endif
+  #if __has_include(<cadmium/core/modeling/component.hpp>)
+    #include <cadmium/core/modeling/component.hpp>
+  #endif
+
+#elif __has_include(<cadmium/modeling/devs/atomic.hpp>)
+  // Layout B
+  #include <cadmium/modeling/devs/atomic.hpp>
+  #include <cadmium/modeling/devs/coupled.hpp>
+  #include <cadmium/modeling/devs/port.hpp>
+  #include <cadmium/modeling/devs/component.hpp>
+
 #else
-  #error "Cadmium v2 not found: expected coupled model header."
+  #error "Cadmium v2 headers not found. Your -I path must point to the folder that contains the 'cadmium' directory (e.g., ~/cadmium_v2/include)."
 #endif

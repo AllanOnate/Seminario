@@ -1,13 +1,7 @@
-# CESFAM model - Cadmium v2
-# Usage:
-#   make CADMIUM_V2_INCLUDE=/path/to/cadmium_v2/include
-#
-# The include path must contain the folder "cadmium/core/..."
-
 CXX ?= g++
 CXXFLAGS ?= -std=gnu++17 -O2 -Wall
 
-CADMIUM_V2_INCLUDE ?= /../cadmium_v2/include
+CADMIUM_V2_INCLUDE ?= ../cadmium_v2/include
 INCLUDES = -I. -I$(CADMIUM_V2_INCLUDE)
 
 BIN_DIR = bin

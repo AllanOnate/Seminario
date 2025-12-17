@@ -30,8 +30,8 @@ inline std::ostream& operator<<(std::ostream& os, const RouterState& s) {
 
 class RouterMedicos : public cadmium::Atomic<RouterState> {
   public:
-    cadmium::Port<Patient> In_paciente;
-    std::vector<cadmium::Port<Patient>> Out_to_doctor;
+    mutable cadmium::Port<Patient> In_paciente;
+    mutable std::vector<cadmium::Port<Patient>> Out_to_doctor;
 
     RouterMedicos(std::string id, RouterConfig cfg)
     : cadmium::Atomic<RouterState>(id, initial_state(cfg))
@@ -54,10 +54,10 @@ class RouterMedicos : public cadmium::Atomic<RouterState> {
         return std::numeric_limits<double>::infinity();
     }
 
-    void output(RouterState& state) const override {
+    void output(const RouterState& state) const override {
         for (int i = 0; i < static_cast<int>(state.out_to_doc.size()); ++i) {
             for (const auto& p : state.out_to_doc[i]) {
-                Out_to_doctor[i].addMessage(p);
+                Out_to_doctor[i]->addMessage(p);
             }
         }
     }
@@ -69,7 +69,7 @@ class RouterMedicos : public cadmium::Atomic<RouterState> {
     void externalTransition(RouterState& state, double e) const override {
         state.now += e;
 
-        for (auto p : In_paciente.getBag()) {
+        for (auto p : In_paciente->getBag()) {
             int idx = state.rr_index % cfg_.doctors;
             state.out_to_doc[idx].push_back(std::move(p));
             state.rr_index = (state.rr_index + 1) % cfg_.doctors;

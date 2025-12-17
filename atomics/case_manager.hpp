@@ -35,12 +35,12 @@ inline std::ostream& operator<<(std::ostream& os, const CaseManagerState& s) {
 class GestorCasos : public cadmium::Atomic<CaseManagerState> {
   public:
     // Inputs
-    cadmium::Port<Patient> In_paciente;
-    cadmium::Port<Patient> In_PacienteDA;
+    mutable cadmium::Port<Patient> In_paciente;
+    mutable cadmium::Port<Patient> In_PacienteDA;
 
     // Outputs
-    cadmium::Port<Patient> Out_pacienteAC;
-    cadmium::Port<Patient> Out_PacienteRC;
+    mutable cadmium::Port<Patient> Out_pacienteAC;
+    mutable cadmium::Port<Patient> Out_PacienteRC;
 
     GestorCasos(std::string id, CaseManagerConfig cfg)
     : cadmium::Atomic<CaseManagerState>(id, CaseManagerState{})
@@ -60,9 +60,9 @@ class GestorCasos : public cadmium::Atomic<CaseManagerState> {
         return std::numeric_limits<double>::infinity();
     }
 
-    void output(CaseManagerState& state) const override {
-        for (const auto& p : state.out_AC) Out_pacienteAC.addMessage(p);
-        for (const auto& p : state.out_RC) Out_PacienteRC.addMessage(p);
+    void output(const CaseManagerState& state) const override {
+        for (const auto& p : state.out_AC) Out_pacienteAC->addMessage(p);
+        for (const auto& p : state.out_RC) Out_PacienteRC->addMessage(p);
     }
 
     void internalTransition(CaseManagerState& state) const override {
@@ -76,14 +76,14 @@ class GestorCasos : public cadmium::Atomic<CaseManagerState> {
         state.now += e;
 
         // New arrivals from generator
-        for (auto p : In_paciente.getBag()) {
+        for (auto p : In_paciente->getBag()) {
             p.estado = PatientStatus::EsperandoEvaluacion;
             // keep arrival time set by generator
             handle_patient(state, std::move(p));
         }
 
         // Returns from adherence/decision module
-        for (auto p : In_PacienteDA.getBag()) {
+        for (auto p : In_PacienteDA->getBag()) {
             // treat return as a new arrival into the APS process
             p.hora_llegada = state.now;
             p.hora_atencion = 0.0;

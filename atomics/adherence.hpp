@@ -42,9 +42,9 @@ inline std::ostream& operator<<(std::ostream& os, const AdherenceState& s) {
 
 class AdherenciaDecision : public cadmium::Atomic<AdherenceState> {
   public:
-    cadmium::Port<Patient> In_Paciente;
-    cadmium::Port<Patient> Out_PacienteDA;
-    cadmium::Port<Patient> Out_PacienteRA;
+    mutable cadmium::Port<Patient> In_Paciente;
+    mutable cadmium::Port<Patient> Out_PacienteDA;
+    mutable cadmium::Port<Patient> Out_PacienteRA;
 
     AdherenciaDecision(std::string id, AdherenceConfig cfg)
     : cadmium::Atomic<AdherenceState>(id, AdherenceState{})
@@ -62,9 +62,9 @@ class AdherenciaDecision : public cadmium::Atomic<AdherenceState> {
         return std::numeric_limits<double>::infinity();
     }
 
-    void output(AdherenceState& state) const override {
-        for (const auto& p : state.out_DA) Out_PacienteDA.addMessage(p);
-        for (const auto& p : state.out_RA) Out_PacienteRA.addMessage(p);
+    void output(const AdherenceState& state) const override {
+        for (const auto& p : state.out_DA) Out_PacienteDA->addMessage(p);
+        for (const auto& p : state.out_RA) Out_PacienteRA->addMessage(p);
     }
 
     void internalTransition(AdherenceState& state) const override {
@@ -75,7 +75,7 @@ class AdherenciaDecision : public cadmium::Atomic<AdherenceState> {
     void externalTransition(AdherenceState& state, double e) const override {
         state.now += e;
 
-        for (auto p : In_Paciente.getBag()) {
+        for (auto p : In_Paciente->getBag()) {
             // Decide if patient returns to the system (DA loop) or exits (RA)
             if (p.followups_done >= cfg_.max_followups) {
                 finalize_patient(p);

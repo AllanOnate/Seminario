@@ -40,8 +40,8 @@ inline std::ostream& operator<<(std::ostream& os, const DoctorState& s) {
 
 class Medico : public cadmium::Atomic<DoctorState> {
   public:
-    cadmium::Port<Patient> In_Paciente;
-    cadmium::Port<Patient> Out_Paciente;
+    mutable cadmium::Port<Patient> In_Paciente;
+    mutable cadmium::Port<Patient> Out_Paciente;
 
     Medico(std::string id, DoctorConfig cfg)
     : cadmium::Atomic<DoctorState>(id, DoctorState{})
@@ -59,7 +59,7 @@ class Medico : public cadmium::Atomic<DoctorState> {
         return sigma < 0.0 ? 0.0 : sigma;
     }
 
-    void output(DoctorState& state) const override {
+    void output(const DoctorState& state) const override {
         if (!state.busy) return;
 
         Patient p = state.current;
@@ -67,7 +67,7 @@ class Medico : public cadmium::Atomic<DoctorState> {
         p.hora_salida = state.finish_time;
         p.tiempo_atencion = p.hora_salida - p.hora_atencion;
         p.estado = PatientStatus::Finalizado; // finished doctor's attention (final decision happens later)
-        Out_Paciente.addMessage(p);
+        Out_Paciente->addMessage(p);
     }
 
     void internalTransition(DoctorState& state) const override {
@@ -87,7 +87,7 @@ class Medico : public cadmium::Atomic<DoctorState> {
         state.now += e;
 
         // Enqueue all arrivals
-        for (auto p : In_Paciente.getBag()) {
+        for (auto p : In_Paciente->getBag()) {
             state.queue.push_back(std::move(p));
         }
 

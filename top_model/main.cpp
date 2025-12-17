@@ -7,17 +7,48 @@
 #include "top_model/cesfam.hpp"
 
 // Cadmium v2 simulation engine + logger
+//
+// Similar to modeling headers, Cadmium v2 can appear with:
+//   A) cadmium/core/simulation/... and cadmium/core/logger/...
+//   B) cadmium/simulation/... (logger lives under simulation/logger)
+//
+// We support both layouts.
 #if __has_include(<cadmium/core/simulation/root_coordinator.hpp>)
   #include <cadmium/core/simulation/root_coordinator.hpp>
+#elif __has_include(<cadmium/simulation/root_coordinator.hpp>)
+  #include <cadmium/simulation/root_coordinator.hpp>
 #else
-  #error "Cadmium v2 not found: expected <cadmium/core/simulation/root_coordinator.hpp>"
+  #error "Cadmium v2 root coordinator header not found. Check CADMIUM_V2_INCLUDE points to .../cadmium_v2/include"
 #endif
 
 #if __has_include(<cadmium/core/logger/csv.hpp>)
   #include <cadmium/core/logger/csv.hpp>
+#elif __has_include(<cadmium/simulation/logger/csv.hpp>)
+  #include <cadmium/simulation/logger/csv.hpp>
 #else
-  #error "Cadmium v2 not found: expected <cadmium/core/logger/csv.hpp>"
+  #error "Cadmium v2 CSV logger header not found. Check CADMIUM_V2_INCLUDE points to .../cadmium_v2/include"
 #endif
+
+// Some Cadmium v2 variants expose setLogger(logger_ptr), others expose
+// setLogger<LoggerType>(args...). We provide a tiny SFINAE-based helper.
+namespace cesfam_compat {
+  template <class Root>
+  auto attach_csv_logger(Root& root, const std::string& file, const std::string& sep, int)
+      -> decltype(root.template setLogger<cadmium::CSVLogger>(file, sep), void()) {
+    root.template setLogger<cadmium::CSVLogger>(file, sep);
+  }
+
+  template <class Root>
+  auto attach_csv_logger(Root& root, const std::string& file, const std::string& sep, long)
+      -> decltype(root.setLogger(std::make_shared<cadmium::CSVLogger>(file, sep)), void()) {
+    root.setLogger(std::make_shared<cadmium::CSVLogger>(file, sep));
+  }
+
+  template <class Root>
+  void attach_csv_logger(Root& root, const std::string& file, const std::string& sep) {
+    attach_csv_logger(root, file, sep, 0);
+  }
+}  // namespace cesfam_compat
 
 using namespace cesfam;
 
@@ -82,8 +113,7 @@ int main(int argc, char** argv) {
     auto model = std::make_shared<CESFAM>("CESFAM", cfg);
     auto root = cadmium::RootCoordinator(model);
 
-    auto logger = std::make_shared<cadmium::CSVLogger>(out_csv, csv_sep);
-    root.setLogger(logger);
+    cesfam_compat::attach_csv_logger(root, out_csv, csv_sep);
 
     root.start();
     if (until <= 0.0) {
