@@ -8,14 +8,14 @@ Este repo contiene una implementación **Cadmium v2** del modelo DEVS basado en 
 - Cadmium v2 (headers) disponible localmente (carpeta `include/` que contenga `cadmium/core/...`)
 
 ## 2) Build
-###Para ejecutar codigo primcipal
+### Para ejecutar codigo primcipal
 ```bash
 make all
 ```
 Salida:
 - bin/CESFAM_V2
   
-###Para ejecutar test
+### Para ejecutar test
 ```bash
 make test
 ```
